@@ -14,7 +14,7 @@
     }
 
     try {
-      $pdo = new PDO('mysql:host=localhost;dbname=OfficeTemp', $DB_USERNAME, $DB_PASSWORD);
+      $pdo = new PDO('mysql:host=localhost;dbname=OfficeTemp', DB_USERNAME, DB_PASSWORD);
     } catch (PDOException $e) {
       http_response_code(500);
       exit('Unable to connect to database');
@@ -40,7 +40,7 @@
     }
 
     try {
-      $pdo = new PDO('mysql:host=localhost;dbname=OfficeTemp', $DB_USERNAME, $DB_PASSWORD);
+      $pdo = new PDO('mysql:host=localhost;dbname=OfficeTemp', DB_USERNAME, DB_PASSWORD);
     } catch (PDOException $e) {
       http_response_code(500);
       exit('Unable to connect to database');
