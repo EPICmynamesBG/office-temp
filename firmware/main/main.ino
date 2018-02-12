@@ -9,21 +9,38 @@
 #include "src/Request.h"
 
 void setup() {
+  #ifdef DEBUG
   Serial.begin(115200);
+  delay(100);
+  Serial.println();
+  #endif
   networkInit();
 }
 
 void loop() {
-  delay(5000); // TODO: Make this a 5 minute sleep
-  getDHT();
+  if (WiFi.status() == WL_CONNECTED) {
+    getDHT();
+    Serial.println("Sleeping...");
+    ESP.deepSleep(SLEEP_TIME * 60 * 1e6, WAKE_RF_DEFAULT);
+  } else {
+    Serial.println("WiFi not connected");
+  }
+  delay(2000);
 }
 
 void networkInit() {
+  Serial.println("Network Initializing...");
   WiFi.hostname(DNS_NAME);
   WiFiManager wifiManager;
-//  wifiManager.setCustomHeadElement("<style>body{ background-color: blue; }</style>");
+  #ifdef CUSTOM_CSS
+  wifiManager.setCustomHeadElement(CUSTOM_CSS);
+  #endif
+  #ifdef DEBUG
+  wifiManager.startConfigPortal(AP_NAME);
+  #endif
   wifiManager.setConfigPortalTimeout(180);
-  wifiManager.autoConnect(AP_NAME, AP_PASSWORD);
+  wifiManager.setMinimumSignalQuality(40); // Minimum signal strength 40%
+  wifiManager.autoConnect(AP_NAME);
 }
 
 void getDHT() {
@@ -32,4 +49,3 @@ void getDHT() {
   float c = TempMaster.getCelsius();
   Req.post(f, c, h);
 }
-
