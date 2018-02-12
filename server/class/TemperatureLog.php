@@ -1,4 +1,5 @@
 <?php
+
   class TemperatureLog implements JsonSerializable {
     public $id;
     public $temp_fahrenheit;
@@ -8,17 +9,21 @@
 
     public function __construct($arr = array()) {
       if (sizeof($arr) == 0) { // PDO populated
-        $this->temp_fahrenheit = floatval($this->temp_fahrenheit);
-        $this->temp_celsius = floatval($this->temp_celsius);
-        $this->humidity_percent = floatval($this->humidity_percent);
-        $this->created_at = DateTime::createFromFormat('Y-m-d H:i:s', $this->created_at);
+        $this->temp_fahrenheit = TemperatureLog::parseFloat($this->temp_fahrenheit);
+        $this->temp_celsius = TemperatureLog::parseFloat($this->temp_celsius);
+        $this->humidity_percent = TemperatureLog::parseFloat($this->humidity_percent);
+        $this->created_at = DateTime::createFromFormat('Y-m-d H:i:s', $this->created_at, new DateTimeZone('America/Indiana/Indianapolis'));
         return;
       }
       $this->id = $arr['id'];
-      $this->temp_fahrenheit = floatval($arr['temp_fahrenheit']);
-      $this->temp_celsius = floatval($arr['temp_celsius']);
-      $this->humidity_percent = floatval($arr['humidity_percent']);
-      $this->created_at = DateTime::createFromFormat('Y-m-d H:i:s', $arr['created_at']);
+      $this->temp_fahrenheit = TemperatureLog::parseFloat($arr['temp_fahrenheit']);
+      $this->temp_celsius = TemperatureLog::parseFloat($arr['temp_celsius']);
+      $this->humidity_percent = TemperatureLog::parseFloat($arr['humidity_percent']);
+      $this->created_at = DateTime::createFromFormat('Y-m-d H:i:s', $arr['created_at'], new DateTimeZone('America/Indiana/Indianapolis'));
+    }
+
+    private static function parseFloat($val) {
+      return number_format(floatval($val), 2);
     }
 
     public function jsonSerialize() {
@@ -27,7 +32,7 @@
         'fahrenheit' => $this->temp_fahrenheit,
         'celsius' => $this->temp_celsius,
         'humidity' => $this->humidity_percent,
-        'time' => $this->created_at->format()
+        'time' => $this->created_at->format('Y-m-d H:i:s T')
       );
     }
 
