@@ -14,11 +14,11 @@ String Request::buildJson(float fahrenheit, float celsius, float humidity) {
   return json;
 }
 
-void Request::post(float& fahrenheit, float& celsius, float& humidity) {
+bool Request::post(float& fahrenheit, float& celsius, float& humidity) {
   // this->net.createConnection(net.TCP, (int) HTTPS);
   if (isnan(fahrenheit) || isnan(celsius) || isnan(humidity)) {
     Serial.println("NaN found. Not sending");
-    return;
+    return false;
   }
 
   String json = this->buildJson(fahrenheit, celsius, humidity);
@@ -42,6 +42,7 @@ void Request::post(float& fahrenheit, float& celsius, float& humidity) {
     Serial.printf("[HTTP] POST... failed, error: %s\n", http.errorToString(httpCode).c_str());
   }
   http.end();
+  return httpCode == HTTP_CODE_OK;
 }
 
 Request Req;

@@ -13,7 +13,7 @@ public:
   */
   Request();
 
-  void post(float& fahrenheit, float& celsius, float& humidity);
+  bool post(float& fahrenheit, float& celsius, float& humidity);
 
 
 private:

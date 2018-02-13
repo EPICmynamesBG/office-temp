@@ -24,6 +24,7 @@ void loop() {
     ESP.deepSleep(SLEEP_TIME * 60 * 1e6, WAKE_RF_DEFAULT);
   } else {
     Serial.println("WiFi not connected");
+    ESP.deepSleep(60 * 1e6, WAKE_RF_DEFAULT); // Sleep 1 minute, then wake to try again
   }
   delay(2000);
 }
