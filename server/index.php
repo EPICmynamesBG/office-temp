@@ -38,11 +38,9 @@
     if (isset($_GET['slack']) && $_GET['slack'] == 'false') {
       $slack = false;
     }
-    if (isset(SLASH_TOKEN) && isset($_GET['token'])) {
-      if (SLASH_TOKEN != $_GET['token']) {
-        http_response_code(400);
-        exit('Slack token invalid');
-      }
+    if (isset($_GET['token']) && SLASH_TOKEN != $_GET['token']) {
+      http_response_code(400);
+      exit('Slack token invalid');
     }
 
     try {
