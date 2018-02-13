@@ -30,13 +30,13 @@
     header('Content-Type: application/json');
     exit(json_encode($created));
   } else if ($_SERVER['REQUEST_METHOD'] == 'GET') {
-    $returnJson = false;
+    $returnJson = true;
     $slack = false;
     if (isset($_SERVER['CONTENT_TYPE']) && $_SERVER['CONTENT_TYPE'] == 'application/json') {
       $returnJson = true;
     }
-    if (isset($_GET['slack']) && $_GET['slack'] == 'true') {
-      $slack = true;
+    if (isset($_GET['slack']) && $_GET['slack'] == 'false') {
+      $slack = false;
     }
     if (isset(SLASH_TOKEN) && isset($_GET['token'])) {
       if (SLASH_TOKEN != $_GET['token']) {
