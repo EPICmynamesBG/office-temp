@@ -31,9 +31,9 @@
     exit(json_encode($created));
   } else if ($_SERVER['REQUEST_METHOD'] == 'GET') {
     $returnJson = true;
-    $slack = false;
-    if (isset($_SERVER['CONTENT_TYPE']) && $_SERVER['CONTENT_TYPE'] == 'application/json') {
-      $returnJson = true;
+    $slack = true;
+    if (isset($_SERVER['CONTENT_TYPE']) && $_SERVER['CONTENT_TYPE'] != 'application/json') {
+      $returnJson = false;
     }
     if (isset($_GET['slack']) && $_GET['slack'] == 'false') {
       $slack = false;
