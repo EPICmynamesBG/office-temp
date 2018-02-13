@@ -9,11 +9,9 @@
 #include "src/Request.h"
 
 void setup() {
-  #ifdef DEBUG
   Serial.begin(115200);
   delay(100);
   Serial.println();
-  #endif
   networkInit();
 }
 
@@ -36,17 +34,18 @@ void networkInit() {
   #ifdef CUSTOM_CSS
   wifiManager.setCustomHeadElement(CUSTOM_CSS);
   #endif
-  #ifdef DEBUG
-  wifiManager.startConfigPortal(AP_NAME);
-  #endif
   wifiManager.setConfigPortalTimeout(180);
   wifiManager.setMinimumSignalQuality(40); // Minimum signal strength 40%
   wifiManager.autoConnect(AP_NAME);
 }
 
 void getDHT() {
-  float h = TempMaster.getHumidity();
-  float f = TempMaster.getFahrenheit();
-  float c = TempMaster.getCelsius();
-  Req.post(f, c, h);
+  bool sent = false;
+  while (!sent) {
+    float h = TempMaster.getHumidity();
+    float f = TempMaster.getFahrenheit();
+    float c = TempMaster.getCelsius();
+    sent = Req.post(f, c, h);
+    delay(1000);
+  }
 }
