@@ -38,6 +38,12 @@
     if (isset($_GET['slack']) && $_GET['slack'] == 'true') {
       $slack = true;
     }
+    if (isset(SLASH_TOKEN) && isset($_GET['token'])) {
+      if (SLASH_TOKEN != $_GET['token']) {
+        http_response_code(400);
+        exit('Slack token invalid');
+      }
+    }
 
     try {
       $pdo = new PDO('mysql:host=localhost;dbname=OfficeTemp', DB_USERNAME, DB_PASSWORD);

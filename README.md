@@ -13,6 +13,7 @@ in the `server` directory, create a `config.php` file like:
 
   define('DB_USERNAME', '');
   define('DB_PASSWORD', '');
+  define('SLASH_TOKEN', '')
 
 ?>
 ```
