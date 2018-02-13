@@ -63,6 +63,7 @@
       $res = $slack ? $data->toSlack() : $data;
       exit(json_encode($res));
     }
+    header('Content-Type: text/plain');
     exit($data);
   } else {
     http_response_code(405);
