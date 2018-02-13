@@ -26,7 +26,7 @@ void Request::post(float& fahrenheit, float& celsius, float& humidity) {
 
   HTTPClient http;    //Declare object of class HTTPClient
 
-  http.begin(POST_URL);
+  http.begin(POST_URL, HTTPS_FINGERPRINT);
   // http.addHeader("POST", "HTTP/1.1");
   if (DNS_NAME) {
     http.addHeader("Host", DNS_NAME);
