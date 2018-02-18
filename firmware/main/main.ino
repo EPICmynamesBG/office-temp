@@ -9,18 +9,32 @@
 #include "src/Request.h"
 
 void setup() {
+  #ifdef DEBUG
   Serial.begin(115200);
   delay(100);
   Serial.println();
+  #endif
+  #ifdef READING_LED
+  pinMode(READING_LED, OUTPUT);
+  #endif
+  #ifdef WIFI_LED
+  pinMode(WIFI_LED, OUTPUT);
+  #endif
   networkInit();
 }
 
 void loop() {
   if (WiFi.status() == WL_CONNECTED) {
+    #ifdef WIFI_LED
+    digitalWrite(WIFI_LED, LOW);
+    #endif
     getDHT();
     Serial.println("Sleeping...");
     ESP.deepSleep(SLEEP_TIME * 60 * 1e6, WAKE_RF_DEFAULT);
   } else {
+    #ifdef WIFI_LED
+    digitalWrite(WIFI_LED, HIGH);
+    #endif
     Serial.println("WiFi not connected");
     ESP.deepSleep(60 * 1e6, WAKE_RF_DEFAULT); // Sleep 1 minute, then wake to try again
   }
@@ -28,6 +42,9 @@ void loop() {
 }
 
 void networkInit() {
+  #ifdef WIFI_LED
+  digitalWrite(WIFI_LED, HIGH);
+  #endif
   Serial.println("Network Initializing...");
   WiFi.hostname(DNS_NAME);
   WiFiManager wifiManager;
@@ -42,10 +59,18 @@ void networkInit() {
 void getDHT() {
   bool sent = false;
   while (!sent) {
+    delay(1000);
+    #ifdef READING_LED
+    digitalWrite(READING_LED, HIGH);
+    #endif
     float h = TempMaster.getHumidity();
     float f = TempMaster.getFahrenheit();
     float c = TempMaster.getCelsius();
     sent = Req.post(f, c, h);
     delay(1000);
+    #ifdef READING_LED
+    digitalWrite(READING_LED, LOW);
+    #endif
   }
+  
 }

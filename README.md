@@ -34,13 +34,17 @@ In `firmware/main/src` create a `config.h` file
 ```h
 #pragma once
 
-#define DHTPIN D3
+#define DHTPIN D1
 
 #define DHTTYPE DHT11
 
+#define READING_LED D2 //Optional
+
+#define WIFI_LED D3 //Optional
+
 #define POST_URL "https://example.com"
 
-#define HTTPS_FINGERPRINT ""
+#define HTTPS_FINGERPRINT "" //Optional
 
 #define DNS_NAME "NodeMCU-Temp"
 
@@ -48,7 +52,7 @@ In `firmware/main/src` create a `config.h` file
 
 #define SLEEP_TIME 5 // minutes
 
-// #define DEBUG true
+/* #define DEBUG true */
 
 #define CUSTOM_CSS "" // Optional
 
