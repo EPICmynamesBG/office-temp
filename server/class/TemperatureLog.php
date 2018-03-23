@@ -12,14 +12,14 @@
         $this->temp_fahrenheit = TemperatureLog::parseFloat($this->temp_fahrenheit);
         $this->temp_celsius = TemperatureLog::parseFloat($this->temp_celsius);
         $this->humidity_percent = TemperatureLog::parseFloat($this->humidity_percent);
-        $this->created_at = DateTime::createFromFormat('Y-m-d H:i:s', $this->created_at, new DateTimeZone('America/Indiana/Indianapolis'));
+        $this->created_at = DateTime::createFromFormat('Y-m-d H:i:s', $this->created_at, new DateTimeZone('America/New_York'));
         return;
       }
       $this->id = $arr['id'];
       $this->temp_fahrenheit = TemperatureLog::parseFloat($arr['temp_fahrenheit']);
       $this->temp_celsius = TemperatureLog::parseFloat($arr['temp_celsius']);
       $this->humidity_percent = TemperatureLog::parseFloat($arr['humidity_percent']);
-      $this->created_at = DateTime::createFromFormat('Y-m-d H:i:s', $arr['created_at'], new DateTimeZone('America/Indiana/Indianapolis'));
+      $this->created_at = DateTime::createFromFormat('Y-m-d H:i:s', $arr['created_at'], new DateTimeZone('America/New_York'));
     }
 
     private static function parseFloat($val) {
